@@ -13,7 +13,3 @@ No idea if this will work for you. If it doesn't work you could take a video or 
   
 Donate  
 Monero: 49no4Kh3ycv4gqUisVahyb6BC2t7rvkd1dkQvWzgboLoAKLhpb9VJcNEAw7Kz9gEweG6gUdQwodRDQGJ18MtBvJYEfESZZu
-<<<<<<< HEAD
-
-=======
->>>>>>> 3b5160760f9aa00a64b9cc63f156938491ef8485
