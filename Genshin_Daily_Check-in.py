@@ -1,13 +1,14 @@
 from pyautogui import *
 import pyautogui
-#import time
 import keyboard
 from webbrowser import open
 import platform
 from os import name,system
 from requests import get
+import sys
+from datetime import date
 
-version = 1.3
+version = 1.4
 
 command = "cls"
 if os.name != "nt":
@@ -18,10 +19,10 @@ def newVersion():
     response = get("https://api.github.com/repos/runningwinterberry/Genshin-Daily-Check-in/releases/latest")
     lv = float(response.json()["tag_name"].replace('v',''))
     if version < lv:
-        print("**********************************\nVersion "+ str(lv) +" Available, Currently Running "+ str(version) +"\nWould you like to go to the releases page? \nhttps://github.com/runningwinterberry/Genshin-Daily-Check-in/releases \n**********************************")
+        print("**********************************\n\033[1;33mVersion "+ str(lv) +" Available, Currently Running "+ str(version) +"\n\033[0mWould you like to go to the releases page? \nhttps://github.com/runningwinterberry/Genshin-Daily-Check-in/releases \n**********************************")
 
 newVersion()
-    
+
 print("You \033[91m must \033[0m be logged in and have browser remember you \nso I can go directly to the daily check-in screen.\nAlso, please insure you browser opens in full screen.")
 
 print("\n\nPaste the url of the daily login screen and click enter")
@@ -35,10 +36,14 @@ if a == "":
     a = "208,100,47"
 color = tuple(map(int, a.split(',')))
 
-print("Please enter your system of 'Mac', 'Windows', or 'Linux'\n(for this purpose there is no differnce between Windows and Linux) \nthen click enter OR click enter to use defult (Windows)")
+print("Please enter your system of 'Mac', 'Windows', or 'Linux'(case sensitive)\n(for this purpose there is no differnce between Windows and Linux) \nthen click enter OR click enter to use defult (Windows)")
 sys = input()
 if sys == "":
     sys = "Windows"
+if sys != "Windows" and sys != "Mac" and sys != "Linux":
+    print("\033[91munknowen system\033[0m" + " " + sys)
+    sleep(2)
+    sys.exit()
 
 print("How long shall I wait (in seconds) till I collect your daily check-in? \nI will then collect it every 24 hours after")
 wait = input()
@@ -62,8 +67,10 @@ while 1:
         for y in range(s.height):
             if s.getpixel((x, y)) == color:
                 click(x, y)
-                sleep(10)
                 newVersion()
+                today = date.today()
+                print("\033[1;34mSuccessfully collected rewards for: " + str(today) + "\033[0m" + "\nRewards will be collected again in 86400 seconds(24 hours)")
+                sleep(10)
                 if sys == "Mac":
                     pyautogui.hotkey('command', 'w')
                 else:
@@ -76,7 +83,7 @@ while 1:
         os.system(command)
         print("\033[91mColor not found!\033[0m")
         newVersion()
-    sleep(86380)
+    sleep(86390)
         
 
 
