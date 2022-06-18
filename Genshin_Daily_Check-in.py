@@ -10,7 +10,7 @@ from datetime import date
 import time
 import schedule
 
-version = 1.5
+version = 1.6
 
 command = "cls"
 if os.name != "nt":
@@ -52,7 +52,7 @@ wait = input()
 print("\033[1;32mSetup complete \033[0m")
 sleep(2)
 if wait != "":
-    sleep((int(wait)*60)*60)
+    sleep((float(wait)*60)*60)
 
 def click(x, y):
     pyautogui.moveTo(x, y)
