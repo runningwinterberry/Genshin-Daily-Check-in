@@ -7,8 +7,10 @@ from os import name,system
 from requests import get
 import sys
 from datetime import date
+import time
+import schedule
 
-version = 1.4
+version = 1.5
 
 command = "cls"
 if os.name != "nt":
@@ -45,20 +47,19 @@ if sys != "Windows" and sys != "Mac" and sys != "Linux":
     sleep(2)
     sys.exit()
 
-print("How long shall I wait (in seconds) till I collect your daily check-in? \nI will then collect it every 24 hours after")
+print("How long shall I wait (in hours) till I collect your daily check-in? \nI will then collect it every 24 hours after")
 wait = input()
-if wait == "":
-    wait = "2"
 print("\033[1;32mSetup complete \033[0m")
 sleep(2)
-sleep(int(wait)-2)
+if wait != "":
+    sleep((int(wait)*60)*60)
 
 def click(x, y):
     pyautogui.moveTo(x, y)
     sleep(0.1)
     pyautogui.click()
 
-while 1:
+def job():
     open(url, new=1)
     sleep(10)
         
@@ -69,7 +70,7 @@ while 1:
                 click(x, y)
                 newVersion()
                 today = date.today()
-                print("\033[1;34mSuccessfully collected rewards for: " + str(today) + "\033[0m" + "\nRewards will be collected again in 86400 seconds(24 hours)")
+                print("\033[0;36mSuccessfully collected rewards for: " + str(today) + "\033[0m" + "\nRewards will be collected again in 24 hours")
                 sleep(10)
                 if sys == "Mac":
                     pyautogui.hotkey('command', 'w')
@@ -83,7 +84,12 @@ while 1:
         os.system(command)
         print("\033[91mColor not found!\033[0m")
         newVersion()
-    sleep(86390)
+
+job()
+schedule.every(1).days.do(job)
+while 1:
+    schedule.run_pending()
+    sleep(1)
         
 
 
