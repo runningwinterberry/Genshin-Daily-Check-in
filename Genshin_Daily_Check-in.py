@@ -6,11 +6,10 @@ import platform
 from os import name,system
 from requests import get
 import sys
-from datetime import date
-import time
+from datetime import datetime, timezone
 import schedule
 
-version = 1.6
+version = 1.7
 
 command = "cls"
 if os.name != "nt":
@@ -27,10 +26,10 @@ newVersion()
 
 print("You \033[91m must \033[0m be logged in and have browser remember you \nso I can go directly to the daily check-in screen.\nAlso, please insure you browser opens in full screen.")
 
-print("\n\nPaste the url of the daily login screen and click enter")
+print("\n\nPaste the url of the daily login screen and click enter OR click enter to use defult")
 url = input()
 if url == "":
-    url = "https://act.hoyolab.com/ys/event/signin-sea-v3/index.html?act_id=e202102251931481&mhy_auth_required=true&mhy_presentation_style=fullscreen&lang=en-us&bbs_theme=dark&bbs_theme_device=1"
+    url = "https://act.hoyolab.com/ys/event/signin-sea-v3/index.html?act_id=e202102251931481&mhy_auth_required=true&mhy_presentation_style=fullscreen&lang=en-us"
 
 print("Please enter RGB value of orange seperated by commas without spaces \nthen click enter OR click enter to use defult (208,100,47)")
 a = input()
@@ -69,7 +68,7 @@ def job():
             if s.getpixel((x, y)) == color:
                 click(x, y)
                 newVersion()
-                today = date.today()
+                today = datetime.now().strftime("%m"+"-"+"%d"+"-"+"%Y %H:%M")
                 print("\033[0;36mSuccessfully collected rewards for: " + str(today) + "\033[0m" + "\nRewards will be collected again in 24 hours")
                 sleep(10)
                 if sys == "Mac":
